@@ -17,6 +17,10 @@
     font-size:18px;
     border:2px solid;
   }
+  td
+  {
+    padding:10px;
+  }
   </style>
   <script>
   function getWeather()
@@ -30,11 +34,14 @@
   }
   var proccessResults = function()
   {
+    var arr={
+      '01d':'cleard.png','02d':'cloudd.png','03d':'clouds.png','04d':'cloud.png','10d':'rain.png','11d':'thunder.png','01n':'night.png','02n':'cloudn.png','03n':'clouds.png','04n':'cloud.png','10n':'rain.png','11n':'thunder.png'
+    }
   var results = JSON.parse(this.responseText);
   console.log(results);
-  var icon="http://openweathermap.org/img/w/"+ results.list[1].weather[0].icon + ".png";
+  var icon=results.list[1].weather[0].icon
   document.getElementById("im").style.display="block";
-  document.getElementById("im").src=icon;
+  document.getElementById("im").src=arr[icon];
   var t=Math.round(results.list[1].main.temp- 273.15);
   var climate=results.list[1].weather[0].main;
   document.getElementById("show").innerHTML=t+" °C";
@@ -43,21 +50,27 @@
   {
     var d=results.list[i].dt_txt;
     var s=d.substring(11,13);
-    document.getElementById("dt").innerHTML+=s+":00 hrs"+"    ";
+    var q=document.getElementById("tem").rows[1].cells;
+    q[i-2].innerHTML=s;
     var t=Math.round(results.list[i].main.temp- 273.15);
-    document.getElementById("tem").innerHTML+=t+ " ";
+    var y=document.getElementById("tem").rows[0].cells;
+    y[i-2].innerHTML=t;
   }
-  for(i=2;i<39;i++)
+  var l=0;
+  for(i=2;i<38;i++)
   {
     var d=results.list[i].dt_txt;
     var s=d.substring(11,13);
     var t=Math.round(results.list[i].main.temp- 273.15);
+    var icon=results.list[i].weather[0].icon
     if(parseInt(s)==09)
     {
-      document.getElementById("cl").innerHTML+=t+" ";
-      var icon="http://openweathermap.org/img/w/"+ results.list[i].weather[0].icon + ".png";
-      document.getElementById("i").style.display="block";
-      document.getElementById("i").src=icon;
+      var k=document.getElementById("tem").rows[2].cells;
+      k[l].innerHTML=t;
+      var w=results.list[i].weather[0].main;
+      var b=document.getElementById("tem").rows[3].cells;
+      b[l].innerHTML="<img src=arr[icon]>";
+      l=l+1;
     }
   }
   };
@@ -67,12 +80,28 @@
     <h1>Weather App</h1>
     <b>Enter City:</b><input type="text" id="p">
     <input type ="button" value="search" onclick="getWeather()"></br>
-    <img alt="no image" hidden id="im"style="height:200px;width:200px;">
+    <img alt="no image" hidden id="im"style="height:200px;width:200px;padding:10px;">
   <h3 id="show"></h3>
   <h3 id="c"></h3>
-  <p id="tem"></p>
-  <p id="dt"></p>
-  <p id="cl"></p>
-  <img alt="no image" hidden id="i"style="height:100px;width:100px;">
+  <table id="tem"style="width:100%">
+    <tr>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+    </tr>
+    <tr>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td> <td colspan="2"></td> <td colspan="2"></td> <td colspan="2"></td> <td colspan="2"></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+      <td colspan="2"></td>
+    </tr>
+  </table>
   </body>
   </html>
