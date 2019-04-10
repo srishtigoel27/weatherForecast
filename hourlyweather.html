@@ -64,7 +64,8 @@ table{
     body.style.backgroundImage='url(backn.png)';
     body.style.color="white";
   }
-  var icon=results.list[1].weather[0].icon
+  var icon=results.list[1].weather[0].icon;
+  console.log("icon"+arr[icon]);
   document.getElementById("im").style.display="block";
   document.getElementById("im").src=arr[icon];
   var t=Math.round(results.list[1].main.temp- 273.15);
@@ -97,7 +98,13 @@ table{
       r[l].innerHTML=h;
       var w=results.list[i].weather[0].main;
       var b=document.getElementById("tem").rows[4].cells;
-      b[l].innerHTML='<img src=arr[icon]>';
+      b[l].textContent=arr[icon];
+      console.log(b[l].innerHTML);
+      image = document.createElement("img");
+      image.setAttribute('height',"200px");
+      image.setAttribute('width',"200px");
+      b[l].appendChild(image);
+      image.src=arr[icon];
       l=l+1;
     }
   }
