@@ -47,7 +47,18 @@ table{
   var proccessResults = function()
   {
     var arr={
-      '01d':'cleard.png','02d':'cloudd.png','03d':'clouds.png','04d':'cloud.png','10d':'rain.png','11d':'thunder.png','01n':'night.png','02n':'cloudn.png','03n':'clouds.png','04n':'cloud.png','10n':'rain.png','11n':'thunder.png'
+      '01d':'cleard.png','02d':'cloudd.png','03d':'clouds.png','04d':'cloud.png','10d':'rain.png',
+      '11d':'thunder.png','01n':'night.png','02n':'cloudn.png','03n':'clouds.png','04n':'cloud.png',
+      '10n':'rain.png','11n':'thunder.png','13d':'snow.png','13n':'snow.png'}
+    var r=document.getElementById("tem").rows[5].cells;
+    for(i=0;i<5;i++)
+    {
+      r[i].innerHTML="";
+    }
+    var r=document.getElementById("tem").rows[1].cells;
+    for(i=0;i<10;i++)
+    {
+      r[i].innerHTML="";
     }
   var results = JSON.parse(this.responseText);
   console.log(results);
@@ -65,7 +76,6 @@ table{
     body.style.color="white";
   }
   var icon=results.list[1].weather[0].icon;
-  console.log("icon"+arr[icon]);
   document.getElementById("im").style.display="block";
   document.getElementById("im").src=arr[icon];
   var t=Math.round(results.list[1].main.temp- 273.15);
@@ -76,8 +86,16 @@ table{
   {
     var d=results.list[i].dt_txt;
     var s=d.substring(11,13);
-    var q=document.getElementById("tem").rows[1].cells;
+    var q=document.getElementById("tem").rows[2].cells;
     q[i-2].innerHTML=s+" hrs";
+    var b=document.getElementById("tem").rows[1].cells;
+    image = document.createElement("img");
+    image.setAttribute('height',"100px");
+    image.setAttribute('width',"100px");
+    var icon=results.list[i].weather[0].icon
+    console.log(icon);
+    image.src=arr[icon];
+    b[i-2].appendChild(image);
     var t=Math.round(results.list[i].main.temp- 273.15);
     var y=document.getElementById("tem").rows[0].cells;
     y[i-2].innerHTML=t+" °C";
@@ -91,20 +109,18 @@ table{
     var icon=results.list[i].weather[0].icon
     if(parseInt(s)==09)
     {
-      var k=document.getElementById("tem").rows[3].cells;
+      var k=document.getElementById("tem").rows[4].cells;
       k[l].innerHTML=t+" °C";
-      var r=document.getElementById("tem").rows[2].cells;
+      var r=document.getElementById("tem").rows[3].cells;
       var h=d.substring(8,10);
       r[l].innerHTML=h;
       var w=results.list[i].weather[0].main;
-      var b=document.getElementById("tem").rows[4].cells;
-      b[l].textContent=arr[icon];
-      console.log(b[l].innerHTML);
+      var b=document.getElementById("tem").rows[5].cells;
       image = document.createElement("img");
-      image.setAttribute('height',"200px");
-      image.setAttribute('width',"200px");
-      b[l].appendChild(image);
+      image.setAttribute('height',"100px");
+      image.setAttribute('width',"100px");
       image.src=arr[icon];
+      b[l].appendChild(image);
       l=l+1;
     }
   }
@@ -119,6 +135,10 @@ table{
   <h2 id="show"></h2>
   <h2 id="c"></h2>
   <table id="tem"style="width:100%">
+    <tr>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+      <td></td> <td></td> <td></td> <td></td> <td></td>
+    </tr>
     <tr>
       <td></td> <td></td> <td></td> <td></td> <td></td>
       <td></td> <td></td> <td></td> <td></td> <td></td>
